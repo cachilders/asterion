@@ -1,6 +1,10 @@
 -- The Circular Ruins
 -- Explore the ruins. Dream something into being.
 
+local bard = include('lib/bard')
+local labyrinth = include('lib/labyrinth')
+local pouch = include('lib/pouch')
+
 function init()
   screen.set_size(128, 64) -- TBD
 end
