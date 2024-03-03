@@ -6,6 +6,7 @@ local labyrinth = include('lib/labyrinth')
 local pouch = include('lib/pouch')
 
 function init()
+  math.randomseed(os.time())
   screen.set_size(128, 64) -- TBD
 end
 

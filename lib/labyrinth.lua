@@ -23,6 +23,8 @@
 
 -- {{ORIGIN}, {SET}, {SET}, {SET}, {SET}}
 
+-- Everything needs a clone method which is create without randomness
+
 local key = include('lib/labyrinth/key')
 local location = include('lib/labyrinth/location')
 local lock = include('lib/labyrinth/lock')
@@ -33,7 +35,7 @@ local Labyrinth = {}
 function Labyrinth:new(options)
   local instance = options or {}
   setmetatable(instance, self)
-  instance.__index = self
+  self.__index = self
   return instance
 end
 

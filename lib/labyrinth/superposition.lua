@@ -7,7 +7,7 @@ local Superposition = {}
 function Superposition:new(options)
   local instance = options or {}
   setmetatable(instance, self)
-  instance.__index = self
+  self.__index = self
   return instance
 end
 
