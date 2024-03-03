@@ -7,7 +7,8 @@ local Location = {
   destinations = nil,
   feature = nil,
   locked_destination = nil,
-  position = 1
+  position = 1,
+  position_state = nil
 }
 
 function Location:new(options)
