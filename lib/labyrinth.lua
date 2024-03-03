@@ -25,18 +25,30 @@
 
 -- Everything needs a clone method which is create without randomness
 
-local key = include('lib/labyrinth/key')
-local location = include('lib/labyrinth/location')
-local lock = include('lib/labyrinth/lock')
-local superposition = include('lib/labyrinth/superposition')
+local Key = include('lib/labyrinth/key')
+local Location = include('lib/labyrinth/location')
+local Lock = include('lib/labyrinth/lock')
+local Positions = include('lib/labyrinth/positions')
 
-local Labyrinth = {}
+local Labyrinth = {
+  positions = nil,
+  start = nil
+}
 
 function Labyrinth:new(options)
   local instance = options or {}
   setmetatable(instance, self)
   self.__index = self
   return instance
+end
+
+function Labyrinth:init()
+  self.positions = Positions:new()
+  local function superpose(l)
+    self.positions:superpose_at_position(l)
+  end
+  self.start = Location:new()
+  self.start:init(superpose)
 end
 
 return Labyrinth
