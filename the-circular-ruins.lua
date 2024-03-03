@@ -10,6 +10,7 @@ function init()
   screen.set_size(128, 64) -- TBD
   labyrinth = Labyrinth:new()
   labyrinth:init()
+  redraw()
 end
 
 function enc(e, d)
@@ -18,8 +19,11 @@ end
 function key(k, z)
 end
 
-function screen.key(k, v)
-  print(k, v)
+function screen.key(k, mods, rep, z)
+  if z == 0 then
+    labyrinth:act(k.name or k)
+    redraw()
+  end
 end
 
 function screen.click(x, y)
@@ -33,12 +37,8 @@ end
 
 function redraw()
   screen.clear()
-  for i = 0, 16 do
-    local x = i + 1
-    screen.level(i)
-    screen.move(x, 1)
-    screen.line(x, 64)
-  end
+  screen.level(16)
+  labyrinth:describe_observer_location()
   screen.refresh()
 end
 

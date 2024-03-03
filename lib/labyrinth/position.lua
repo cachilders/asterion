@@ -22,6 +22,7 @@ end
 
 function Position:superpose(location)
   table.insert(self.states, location)
+  location:set('position_state', #self.states)
   if self.greatest == nil or self.greatest.depth < location.depth then
     self.greatest = location
   end
