@@ -3,7 +3,8 @@
 -- passage down longest line is blocked
 
 local Lock = {
-  match = nil
+  match = nil,
+  type = 'lock'
 }
 
 function Lock:new(options)

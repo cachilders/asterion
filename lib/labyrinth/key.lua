@@ -4,7 +4,8 @@
 -- destroyed when used on lock
 
 local Key = {
-  match = nil
+  match = nil,
+  type = 'key'
 }
 
 function Key:new(options)
