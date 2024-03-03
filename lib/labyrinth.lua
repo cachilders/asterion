@@ -25,9 +25,7 @@
 
 -- Everything needs a clone method which is create without randomness
 
-local Key = include('lib/labyrinth/key')
 local Location = include('lib/labyrinth/location')
-local Lock = include('lib/labyrinth/lock')
 local Positions = include('lib/labyrinth/positions')
 
 local Labyrinth = {
@@ -49,6 +47,7 @@ function Labyrinth:init()
   end
   self.start = Location:new()
   self.start:init(superpose)
+  self.positions:decorate()
 end
 
 return Labyrinth

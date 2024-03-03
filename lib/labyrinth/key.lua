@@ -3,13 +3,20 @@
 -- has lock pair
 -- destroyed when used on lock
 
-local Key = {}
+local Key = {
+  match = nil
+}
 
 function Key:new(options)
   local instance = options or {}
   setmetatable(instance, self)
   self.__index = self
   return instance
+end
+
+function Key:init(match)
+  self.match = match
+  print('Key:', self.match)
 end
 
 return Key

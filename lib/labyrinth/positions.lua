@@ -24,8 +24,14 @@ function Positions:superpose_at_position(location)
   self.collection[position]:superpose(location)
 end
 
+function Positions:decorate()
+  for i = 1, #self.collection do
+    self.collection[i]:decorate()
+  end
+end
+
 function Positions:_init_position(i)
-  self.collection[i] = Position:new()
+  self.collection[i] = Position:new({ id = i })
 end
 
 return Positions

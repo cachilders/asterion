@@ -10,13 +10,6 @@ function init()
   screen.set_size(128, 64) -- TBD
   labyrinth = Labyrinth:new()
   labyrinth:init()
-  
-  local positions = labyrinth.positions.collection
-  print(#positions,
-    positions[2]:get('greatest').depth,
-    positions[2]:get('least').depth,
-    #positions[2].states
-  )
 end
 
 function enc(e, d)
