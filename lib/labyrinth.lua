@@ -66,10 +66,13 @@ function Labyrinth:init()
 end
 
 function Labyrinth:act(k)
+  -- TODO push down to location
+  -- passing down update callback for interacting
+  -- with pouch etc
   local destinations = self.observer_location.destinations
   local action = ACTIONS[k]
   if action == ACTIONS[' '] then
-    print('There\'s nothing with which to interact')
+    print('There is nothing with which to interact')
   elseif destinations[action] then
     self.observer_location = destinations[action]
   else
@@ -82,13 +85,13 @@ function Labyrinth:describe_observer_location()
   local destinations = location.destinations
   local feature = location.feature and 'a '..location.feature.type or 'nothing'
   local options = ' '..(destinations.l ~= nil and 'l ' or '')..(destinations.r ~= nil and 'r ' or '')..(destinations.f ~= nil and 'f ' or '')..(destinations.b ~= nil and 'b ' or '')
-  screen.move(64, 22)
+  screen.move(64, 12)
   screen.text_center('You are at position '..location:get('position'))
-  screen.move(64, 32)
+  screen.move(64, 22)
   screen.text_center('You are in position state '..location:get('position_state'))
-  screen.move(64, 42)
+  screen.move(64, 32)
   screen.text_center('There is '..feature..' here')
-  screen.move(64, 52)
+  screen.move(64, 42)
   screen.text_center('You can move '..options)
 end
 
