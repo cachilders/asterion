@@ -61,11 +61,25 @@ function Location:set(k, v)
   self[k] = v
 end
 
-function Location:act(k, update)
+function Location:act(k, update, test)
   local destinations = self.destinations
   local action = constants.INPUTS[k]
   if action == constants.INPUTS[' '] then
-    print('There is nothing with which to interact')
+    if self.feature then
+      if self.feature.type == constants.FEATURES.KEY then
+        update({verb = constants.ACTIONS.TAKE, value = self.feature})
+        self.feature = nil
+      elseif self.feature.type == constants.FEATURES.LOCK then
+        if test(self.feature.match) then
+          update({verb = constants.ACTIONS.DROP, value = self.feature.match})
+          self.feature = nil
+        else
+          print('You lack something the lock wants')
+        end
+      end
+    else
+      print('There is nothing with which to interact')
+    end
   elseif destinations[action] then
     update({verb = constants.ACTIONS.MOVE, value = destinations[action]})
   else

@@ -1,8 +1,9 @@
 local Feature = include('lib/labyrinth/feature')
+local constants = include('lib/constants')
 
 local Lock = {
   match = nil,
-  type = 'lock'
+  type = constants.FEATURES.LOCK
 }
 
 function Lock:new(options)

@@ -1,5 +1,6 @@
 local Pouch = {
-  contents = nil
+  contents = nil,
+  size = 0
 }
 
 function Pouch:new(options)
@@ -10,31 +11,34 @@ function Pouch:new(options)
   return instance
 end
 
-function Pouch:inspect()
+function Pouch:inspect(match)
   -- TODO inventory stuff
-  if #self.contents == 0 then
+  if match then
+    return self.contents[match] ~= nil
+  elseif self.size == 0 then
     print('There is nothing in your pouch')
   else
     print('In your pouch you have:')
-    for i = 1, #self.contents do
-      print(self.contents[i]:get('type'), self.contents[i]:get('match'), self.contents[i]:get('name'))
+    for k, v in pairs(self.contents) do
+      print('a '..v:get('type')..' labelled '..k)
     end
   end
 end
 
 function Pouch:add(item)
   self.contents[item:get('match')] = item
+  self.size = self.size + 1
 end
 
 function Pouch:remove(match)
   local contents = {}
-  for i = 1, #self.contents do
-    local this_match = self.contents[i]:get('match')
-    if this_match ~= match then
-      contents[this_match] = self.contents[i]
+  for k, v in pairs(self.contents) do
+    if k ~= match then
+      contents[k] = v
     end
   end
   self.contents = contents
+  self.size = self.size - 1
 end
 
 return Pouch

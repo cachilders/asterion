@@ -10,6 +10,10 @@ return {
     f = '↑',
     b = '↓'
   },
+  FEATURES = {
+    KEY = 'key',
+    LOCK = 'lock'
+  },
   INPUTS = {
     left = 'l',
     right = 'r',

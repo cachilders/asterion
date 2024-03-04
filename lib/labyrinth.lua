@@ -27,14 +27,14 @@ function Labyrinth:init()
   self:describe_observer_location()
 end
 
-function Labyrinth:act(k, affect)
+function Labyrinth:act(k, affect, test)
   local function update(action)
     if action.verb == constants.ACTIONS.MOVE then
       self.observer_location = action.value
     end
     affect(action)
   end
-  self.observer_location:act(k, update)
+  self.observer_location:act(k, update, test)
 end
 
 function Labyrinth:describe_observer_location()

@@ -30,11 +30,14 @@ function screen.key(k, mods, rep, z)
       pouch:add(action.value)
     end
   end
+  local function test(match)
+    return pouch:inspect(match)
+  end
   if z == 0 then
     if k == 'i' then
       pouch:inspect()
     else
-      labyrinth:act(k.name or k, affect)
+      labyrinth:act(k.name or k, affect, test)
       redraw()
     end
   end
