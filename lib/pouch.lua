@@ -12,8 +12,13 @@ end
 
 function Pouch:inspect()
   -- TODO inventory stuff
-  for i = 1, #self.contents do
-    print(self.contents[i]:get('type'), self.contents[i]:get('match'), self.contents[i]:get('name'))
+  if #self.contents == 0 then
+    print('There is nothing in your pouch')
+  else
+    print('In your pouch you have:')
+    for i = 1, #self.contents do
+      print(self.contents[i]:get('type'), self.contents[i]:get('match'), self.contents[i]:get('name'))
+    end
   end
 end
 

@@ -1,6 +1,6 @@
 -- a LOCATION has a deterministic quality used for mutating the aesthetic content of its SUPERPOSITION
-
-local PASSAGES = {'l', 'r', 'f'}
+local PASSAGES = {'l', 'f', 'b'}
+local constants = include('lib/constants')
 
 local Location = {
   depth = 0,
@@ -60,5 +60,32 @@ end
 function Location:set(k, v)
   self[k] = v
 end
+
+function Location:act(k, update)
+  local destinations = self.destinations
+  local action = constants.INPUTS[k]
+  if action == constants.INPUTS[' '] then
+    print('There is nothing with which to interact')
+  elseif destinations[action] then
+    update({verb = constants.ACTIONS.MOVE, value = destinations[action]})
+  else
+    print('nope')
+  end
+end
+
+function Location:impart()
+  local destinations = self.destinations
+  local feature = self.feature and 'a '..self.feature.type or 'nothing'
+  return {
+    'You are at position '..self.position,
+    'You are in position state '..self.position_state,
+    'There is '..feature..' here',
+    ''..(destinations.l ~= nil and constants.ARROWS['l'] or '')..
+    (destinations.f ~= nil and constants.ARROWS['f'] or '')..
+    (destinations.b ~= nil and constants.ARROWS['b'] or '')..
+    (destinations.r ~= nil and constants.ARROWS['r'] or '')
+  }
+end
+
 
 return Location

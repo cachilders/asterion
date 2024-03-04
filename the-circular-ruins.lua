@@ -4,12 +4,15 @@
 local Bard = include('lib/bard')
 local Labyrinth = include('lib/labyrinth')
 local Pouch = include('lib/pouch')
+local constants = include('lib/constants')
+local bard, labyrinth, pouch
 
 function init()
   math.randomseed(os.time())
   screen.set_size(128, 64) -- TBD
   labyrinth = Labyrinth:new()
   labyrinth:init()
+  pouch = Pouch:new()
   redraw()
 end
 
@@ -20,16 +23,28 @@ function key(k, z)
 end
 
 function screen.key(k, mods, rep, z)
+  local function affect(action)
+    if action.verb == constants.ACTIONS.DROP then
+      pouch:remove(action.value)
+    elseif action.verb == constants.ACTIONS.TAKE then
+      pouch:add(action.value)
+    end
+  end
   if z == 0 then
-    labyrinth:act(k.name or k)
-    redraw()
+    if k == 'i' then
+      pouch:inspect()
+    else
+      labyrinth:act(k.name or k, affect)
+      redraw()
+    end
   end
 end
 
 function screen.click(x, y)
-  screen.move(x, y)
-  screen.text('*')
-  screen.refresh()
+  -- TODO remove when certain we won't use
+  -- screen.move(x, y)
+  -- screen.text('*')
+  -- screen.refresh()
 end
 
 function draw()
