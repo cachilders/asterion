@@ -1,5 +1,5 @@
 -- a LOCATION has a deterministic quality used for mutating the aesthetic content of its SUPERPOSITION
-local PASSAGES = {'l', 'f', 'b'}
+local PASSAGES = {'l', 'r', 'f'}
 local constants = include('lib/constants')
 
 local Location = {
@@ -62,8 +62,12 @@ function Location:set(k, v)
 end
 
 function Location:act(k, update, test)
+  -- TODO: this whole block can and should be improved in a
+  -- code org and quality sense with better abstractions, etc.
   local destinations = self.destinations
   local action = constants.INPUTS[k]
+  -- This bit is awful and needs serious rethinking
+  local locked_destination = self.feature and self.feature.type == constants.FEATURES.LOCK and self.locked_destination
   if action == constants.INPUTS[' '] then
     if self.feature then
       if self.feature.type == constants.FEATURES.KEY then
@@ -73,6 +77,7 @@ function Location:act(k, update, test)
         if test(self.feature.match) then
           update({verb = constants.ACTIONS.DROP, value = self.feature.match})
           self.feature = nil
+          self.locked_destination = nil
         else
           print('You lack something the lock wants')
         end
@@ -81,23 +86,29 @@ function Location:act(k, update, test)
       print('There is nothing with which to interact')
     end
   elseif destinations[action] then
-    update({verb = constants.ACTIONS.MOVE, value = destinations[action]})
+    if locked_destination ~= action then
+      update({verb = constants.ACTIONS.MOVE, value = destinations[action]})
+    else
+      print('That passage is locked.')
+    end
   else
     print('nope')
   end
 end
 
 function Location:impart()
+  -- TODO So profoundly temporary
   local destinations = self.destinations
   local feature = self.feature and 'a '..self.feature.type or 'nothing'
+  local locked_destination = self.feature and self.feature.type == constants.FEATURES.LOCK and self.locked_destination
   return {
     'You are at position '..self.position,
     'You are in position state '..self.position_state,
     'There is '..feature..' here',
-    ''..(destinations.l ~= nil and constants.ARROWS['l'] or '')..
-    (destinations.f ~= nil and constants.ARROWS['f'] or '')..
+    ''..(locked_destination ~= 'l' and destinations.l ~= nil and constants.ARROWS['l'] or '')..
+    (locked_destination ~= 'f' and destinations.f ~= nil and constants.ARROWS['f'] or '')..
     (destinations.b ~= nil and constants.ARROWS['b'] or '')..
-    (destinations.r ~= nil and constants.ARROWS['r'] or '')
+    (locked_destination ~= 'r' and destinations.r ~= nil and constants.ARROWS['r'] or '')
   }
 end
 
