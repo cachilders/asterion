@@ -39,10 +39,14 @@ end
 
 function Labyrinth:describe_observer_location()
   local description = self.observer_location:impart()
-  local x, y = 64, 12
+  local texture = screen.new_texture_from_file('/Users/user/Projects/the-circular-ruins/assets/images/test.png')
+  texture:render(0, 0)
+  local x, y = 64, 22
   for i = 1, #description do
     screen.move(x, y)
-    screen.text_center(description[i])
+    if i == #description then
+      screen.text_center(description[i])
+    end
     y = y + 10
   end
 end
