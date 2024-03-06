@@ -38,20 +38,27 @@ function Labyrinth:act(k, affect, test)
 end
 
 function Labyrinth:describe_observer_location()
-  local description, passages = self.observer_location:impart()
-  local l_path = (passages.l and passages.lock == 'l' and 'lock/1-l') or (passages.l and 'open/1-l') or 'blank/1-l'
-  local c_path = (passages.f and passages.lock == 'f' and 'lock/1-f') or (passages.f and 'open/1-f') or 'blank/1-f'
-  local r_path = (passages.r and passages.lock == 'r' and 'lock/1-r') or (passages.r and 'open/1-r') or 'blank/1-r'
+  local description, aspects = self.observer_location:impart()
+  local l_path = (aspects.l and aspects.lock == 'l' and 'lock/1-l') or (aspects.l and 'open/1-l') or 'blank/1-l'
+  local c_path = (aspects.f and aspects.lock == 'f' and 'lock/1-f') or (aspects.f and 'open/1-f') or 'blank/1-f'
+  local r_path = (aspects.r and aspects.lock == 'r' and 'lock/1-r') or (aspects.r and 'open/1-r') or 'blank/1-r'
+  local key_path = 'key'
   local l = screen.new_texture_from_file('/Users/user/Projects/the-circular-ruins/assets/images/'..l_path..'.png')
   local c = screen.new_texture_from_file('/Users/user/Projects/the-circular-ruins/assets/images/'..c_path..'.png')
   local r = screen.new_texture_from_file('/Users/user/Projects/the-circular-ruins/assets/images/'..r_path..'.png')
+  local key = screen.new_texture_from_file('/Users/user/Projects/the-circular-ruins/assets/images/'..key_path..'.png')
   l:render(0, 0)
   c:render(48, 0)
   r:render(79, 0)
+  if aspects.key then
+    key:render(48, 0)
+  end
   local x, y = 64, 22
   for i = 1, #description do
-    screen.move(x, y)
-    screen.text_center(description[i])
+    if i == #description then
+      screen.move(x, y)
+      screen.text_center(description[i])
+    end
     y = y + 10
   end
 end

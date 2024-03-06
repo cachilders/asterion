@@ -111,6 +111,7 @@ function Location:impart()
     (locked_destination ~= 'r' and destinations.r ~= nil and constants.ARROWS['r'] or '')
   }, {
     lock = locked_destination,
+    key = self.feature and self.feature.type == constants.FEATURES.KEY,
     l = destinations.l ~= nil,
     r = destinations.r ~= nil,
     f = destinations.f ~= nil
