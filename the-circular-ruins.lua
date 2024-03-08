@@ -7,6 +7,8 @@ local Pouch = include('lib/pouch')
 local constants = include('lib/constants')
 local bard, labyrinth, pouch
 
+engine.name = 'Asterion'
+
 function init()
   math.randomseed(os.time())
   screen.set_size(128, 64) -- TBD
