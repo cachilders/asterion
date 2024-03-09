@@ -33,13 +33,12 @@ function keyboard.code(k, z)
     return pouch:inspect(match)
   end
   if z == 0 then
-    print(k)
-    -- if k == 'i' then
-    --   pouch:inspect()
-    -- else
-    --   labyrinth:act(k.name or k, affect, test)
-    --   redraw()
-    -- end
+    if k == 'I' then
+      pouch:inspect()
+    else
+      labyrinth:act(k.name or k, affect, test)
+      redraw()
+    end
   end
 end
 
@@ -50,9 +49,9 @@ function redraw()
   screen.clear()
   screen.level(16)
   labyrinth:describe_observer_location()
-  screen.refresh()
+  screen.update()
 end
 
--- function refresh()
---   redraw()
--- end
+function refresh()
+  redraw()
+end

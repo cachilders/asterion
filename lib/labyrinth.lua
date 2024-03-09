@@ -2,6 +2,8 @@ local Location = include('lib/labyrinth/location')
 local Positions = include('lib/labyrinth/positions')
 local constants = include('lib/constants')
 
+local ASSET_PATH = '/home/we/dust/code/the-circular-ruins/assets/images/'
+
 local Labyrinth = {
   observer_location = nil,
   positions = nil,
@@ -43,12 +45,12 @@ function Labyrinth:describe_observer_location()
   local c_path = (aspects.f and aspects.lock == 'f' and 'lock/1-f') or (aspects.f and 'open/1-f') or 'blank/1-f'
   local r_path = (aspects.r and aspects.lock == 'r' and 'lock/1-r') or (aspects.r and 'open/1-r') or 'blank/1-r'
   local key_path = 'key'
-  screen.display_png('/Users/user/Projects/the-circular-ruins/assets/images/'..l_path..'.png', 0, 0)
-  screen.display_png('/Users/user/Projects/the-circular-ruins/assets/images/'..c_path..'.png', 48, 0)
-  screen.display_png('/Users/user/Projects/the-circular-ruins/assets/images/'..r_path..'.png', 79, 0)
+  screen.display_png(ASSET_PATH..l_path..'.png', 0, 0)
+  screen.display_png(ASSET_PATH..c_path..'.png', 48, 0)
+  screen.display_png(ASSET_PATH..r_path..'.png', 79, 0)
 
   if aspects.key then
-    screen.display_png('/Users/user/Projects/the-circular-ruins/assets/images/'..key_path..'.png', 48, 0)
+    screen.display_png(ASSET_PATH..key_path..'.png', 48, 0)
   end
   local x, y = 64, 22
   for i = 1, #description do

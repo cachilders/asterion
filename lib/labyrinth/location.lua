@@ -68,7 +68,7 @@ function Location:act(k, update, test)
   local action = constants.INPUTS[k]
   -- This bit is awful and needs serious rethinking
   local locked_destination = self.feature and self.feature.type == constants.FEATURES.LOCK and self.locked_destination
-  if action == constants.INPUTS[' '] then
+  if action == constants.INPUTS.SPACE then
     if self.feature then
       if self.feature.type == constants.FEATURES.KEY then
         update({verb = constants.ACTIONS.TAKE, value = self.feature})
