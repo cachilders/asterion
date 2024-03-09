@@ -14,6 +14,7 @@ function init()
   labyrinth = Labyrinth:new()
   labyrinth:init()
   pouch = Pouch:new()
+  engine.note(60)
   redraw()
 end
 
