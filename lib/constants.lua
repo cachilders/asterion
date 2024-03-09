@@ -15,15 +15,15 @@ return {
     LOCK = 'lock'
   },
   INPUTS = {
-    left = 'l',
-    right = 'r',
-    up = 'f',
-    down = 'b',
-    a = 'l',
-    d = 'r',
-    w = 'f',
-    s = 'b',
-    [' '] = 'interact',
-    i = 'inventory'
+    LEFT = 'l',
+    RIGHT = 'r',
+    UP = 'f',
+    DOWN = 'b',
+    A = 'l',
+    D = 'r',
+    W = 'f',
+    S = 'b',
+    SPACE = 'interact',
+    I = 'inventory'
   }
 }
