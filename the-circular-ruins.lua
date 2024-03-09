@@ -7,11 +7,14 @@ local Pouch = include('lib/pouch')
 local constants = include('lib/constants')
 local bard, labyrinth, pouch
 
+engine.name = 'Asterion'
+
 function init()
   math.randomseed(os.time())
   labyrinth = Labyrinth:new()
   labyrinth:init()
   pouch = Pouch:new()
+  engine.note(60)
   redraw()
 end
 
