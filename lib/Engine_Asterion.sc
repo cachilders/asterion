@@ -10,17 +10,23 @@ Engine_Asterion : CroneEngine {
   }
 
   alloc {
+    // TODO, I want to play the delay on an env eventually
     SynthDef(\Asterion, {
-      arg amp = 1, attack = 0.1, bandstop_hz = 65, bandstop_width = 1,
-        decay = 0.1, shimmer = 1, gloom = 1, noise_cutoff = 100,
-        noise_amp = 0.5, osc_amp = 0.4, osc_hz = 130.813, release = 0.3;
-      var low = SinOsc.ar(osc_hz / 2, LinRand(0.1,5.0), osc_amp * {SinOsc.kr(1).range(0.75, 1)}, {SinOsc.kr(22).range(1, gloom * 0.1)});
-	    var mid = SinOsc.ar(osc_hz, LinRand(5,15.0), osc_amp * {SinOsc.kr(1).range(0.25, 0.75)}, {SinOsc.kr(22).range(1, 2)});
-	    var high = SinOsc.ar(osc_hz * 2, LinRand(15,25.0), osc_amp * {SinOsc.kr(1).range(0.01, 0.25)}, {SinOsc.kr(22).range(1, shimmer * 0.1)});
-      var noise = LPF.ar({BrownNoise.ar(noise_amp)}, {SinOsc.kr(45).range(noise_cutoff - gloom, noise_cutoff)});
-	    var mix = SplayAz.ar(2, [low, noise, mid, high], {SinOsc.kr(1).range(0.75, 1.25)}, 1, 1.5, 0.75, 0.5, true);
-      var filter = BBandStop.ar(mix, bandstop_hz + {SinOsc.kr(shimmer).range(0, 10)}, bandstop_width + {SinOsc.kr(gloom).range(0.5, 1)});
-	    Out.ar(0, filter * (amp - osc_amp));
+      arg amp=0.5, attack=0.1, breadth=0.1, decay=0.1, depth=0.1, gloom=10, hz=130.813, noise_amp=0.75, release=0.3, shine=10;
+      var band_hz, band_width, delay, delay_buffer, depths, filtered, high, low, mid, mix, noise, noise_cutoff, verb;
+      delay_buffer = Buffer.alloc(s, 360);
+      band_hz = hz * depth;
+      band_width = 0.01 + (gloom * 0.1);
+      noise_cutoff = hz - (gloom * breadth);
+      low = SinOsc.ar(hz / 4 + Dust.ar(gloom * 0.01), {BrownNoise.kr(noise_amp / 4)}!5);
+      mid = SinOsc.ar(hz / 2 + SinOsc.kr().range(gloom * -1, shine), {BrownNoise.kr(noise_amp / 3)}!5);
+      high = SinOsc.ar(hz + SinOsc.kr().range(0, 0 + shine), {BrownNoise.kr(noise_amp)}!5);
+      noise = BLowPass.ar({BrownNoise.ar({BrownNoise.kr(noise_amp)})}, noise_cutoff);
+      delay = BufDelayN.ar(delay_buffer, {Mix.ar(low)} * depth, gloom);
+      verb = FreeVerb.ar(high, shine * 0.1, breadth);
+      mix = LeakDC.ar(Splay.ar([noise, low, mid, high, delay, verb]));
+      filtered = BBandStop.ar(mix, band_hz, band_width);
+      Out.ar(0, filtered * amp);
     }).add;
 
     context.server.sync;
@@ -28,18 +34,16 @@ Engine_Asterion : CroneEngine {
     synth = Synth(\Asterion, target:context.server);
 
     params = Dictionary.newFrom([
-      amp: 0.75,
-      attack: 0.1,
-      bandstop_hz: 50,
-      bandstop_width: 0.5,
-      decay: 0.1,
-      shimmer: 1,
-      gloom: 0.1,
-      noise_amp: 0.1,
-			noise_cutoff: 60,
-      osc_amp: 0.5,
-      osc_hz: 65.41,
-      release: 0.3;
+      amp: 0.5,
+      attack: 0.1, // UNUSED FOR NOW
+      breadth: 0.1,
+      decay: 0.1, // UNUSED FOR NOW
+      depth: 0.1,
+      gloom: 10,
+      hz: 130.813,
+      noise_amp: 0.75,
+      release: 0.3, // UNUSED FOR NOW
+      shine: 10;
     ]);
     
     params.keysDo({ arg key;
