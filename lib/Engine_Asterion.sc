@@ -10,11 +10,11 @@ Engine_Asterion : CroneEngine {
   }
 
   alloc {
-    // TODO, I want to play the delay on an env eventually
+    // ADD TRIGGERS FOR THUNKS / DELAYS / SHIMMERS / AND NOTES
     SynthDef(\Asterion, {
       arg amp=0.5, attack=0.1, breadth=0.1, decay=0.1, depth=0.1, gloom=10, hz=130.813, noise_amp=0.75, release=0.3, shine=10;
       var band_hz, band_width, delay, delay_buffer, depths, filtered, high, low, mid, mix, noise, noise_cutoff, verb;
-      delay_buffer = Buffer.alloc(s, 360);
+      delay_buffer = Buffer.alloc(context.server, 360);
       band_hz = hz * depth;
       band_width = 0.01 + (gloom * 0.1);
       noise_cutoff = hz - (gloom * breadth);
@@ -34,25 +34,25 @@ Engine_Asterion : CroneEngine {
     synth = Synth(\Asterion, target:context.server);
 
     params = Dictionary.newFrom([
-      amp: 0.5,
-      attack: 0.1, // UNUSED FOR NOW
-      breadth: 0.1,
-      decay: 0.1, // UNUSED FOR NOW
-      depth: 0.1,
-      gloom: 10,
-      hz: 130.813,
-      noise_amp: 0.75,
-      release: 0.3, // UNUSED FOR NOW
-      shine: 10;
+      \amp: 0.5,
+      \attack: 0.1, // UNUSED FOR NOW
+      \breadth: 0.1, // <- NOT GOOD ENOUGH 
+      \decay: 0.1, // UNUSED FOR NOW
+      \depth: 0.1,
+      \gloom: 10, // <- MAKE FLOAT 1
+      \hz: 130.813,
+      \noise_amp: 0.75,
+      \release: 0.3, // UNUSED FOR NOW
+      \shine: 10; // <- MAKE FLOAT 1
     ]);
     
     params.keysDo({ arg key;
       this.addCommand(key, "f", { arg msg;
-        params[key] = msg[1]
+        synth.set(key, msg[1])
       });
     });
 
-    this.addCommand(\note, "i", { arg msg; synth.set(\osc_hz, msg[1].midicps)});
+    this.addCommand(\note, "i", { arg msg; synth.set(\hz, msg[1].midicps)});
 
     // Need to extend this to allow note_on / note_off once we get
     // things working more
