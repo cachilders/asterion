@@ -1,5 +1,5 @@
 // CroneEngine_Asterion
-// Borgesian WIP
+// Borgesian Drone
 
 // Inherit methods from CroneEngine
 Engine_Asterion : CroneEngine {
@@ -10,23 +10,23 @@ Engine_Asterion : CroneEngine {
   }
 
   alloc {
-    // ADD TRIGGERS FOR THUNKS / DELAYS / SHIMMERS / AND NOTES
+    // TODO Expand with trigger and env
     SynthDef(\Asterion, {
-      arg amp=0.5, attack=0.1, breadth=0.1, decay=0.1, depth=0.1, gloom=10, hz=130.813, noise_amp=0.75, release=0.3, shine=10;
-      var band_hz, band_width, delay, delay_buffer, depths, filtered, high, low, mid, mix, noise, noise_cutoff, verb;
+      arg amp=0.5, attack=0.1, breadth=0.1, decay=0.1, depth=0.1, gloom=0.01, hz=130.813, noise_amp=0.5, release=0.3, shine=0.1, t_gate;
+      var band_hz, band_width, delay, delay_buffer, filtered, high, low, mid, mix, noise, noise_cutoff, verb;
       delay_buffer = Buffer.alloc(context.server, 360);
-      band_hz = hz * depth;
-      band_width = 0.01 + (gloom * 0.1);
-      noise_cutoff = hz - (gloom * breadth);
-      low = SinOsc.ar(hz / 4 + Dust.ar(gloom * 0.01), {BrownNoise.kr(noise_amp / 4)}!5);
-      mid = SinOsc.ar(hz / 2 + SinOsc.kr().range(gloom * -1, shine), {BrownNoise.kr(noise_amp / 3)}!5);
-      high = SinOsc.ar(hz + SinOsc.kr().range(0, 0 + shine), {BrownNoise.kr(noise_amp)}!5);
+      band_hz = hz - ((hz / 2) * depth);
+      band_width = 3 * breadth;
+      noise_cutoff = hz * breadth;
+      low = SinOsc.ar(hz / 4 + Dust.ar(gloom), {BrownNoise.kr(noise_amp / 4)}!5, gloom);
+      mid = SinOsc.ar(hz / 2 + SinOsc.kr().range(0 - gloom, shine), {BrownNoise.kr(noise_amp / 3)}!5, breadth * depth);
+      high = SinOsc.ar(hz + SinOsc.kr().range(0, shine), {BrownNoise.kr(noise_amp)}!5, shine);
       noise = BLowPass.ar({BrownNoise.ar({BrownNoise.kr(noise_amp)})}, noise_cutoff);
-      delay = BufDelayN.ar(delay_buffer, {Mix.ar(low)} * depth, gloom);
-      verb = FreeVerb.ar(high, shine * 0.1, breadth);
-      mix = LeakDC.ar(Splay.ar([noise, low, mid, high, delay, verb]));
+      delay = BufDelayN.ar(delay_buffer, {Mix.ar(low)} * depth, gloom * 5);
+      verb = FreeVerb.ar({Mix.ar(high)}, shine, breadth, depth);
+      mix = LeakDC.ar(Splay.ar([low, mid, high, noise, delay, verb]));
       filtered = BBandStop.ar(mix, band_hz, band_width);
-      Out.ar(0, filtered * amp);
+      Out.ar(0, Limiter.ar(filtered * amp));
     }).add;
 
     context.server.sync;
@@ -35,15 +35,15 @@ Engine_Asterion : CroneEngine {
 
     params = Dictionary.newFrom([
       \amp: 0.5,
-      \attack: 0.1, // UNUSED FOR NOW
-      \breadth: 0.1, // <- NOT GOOD ENOUGH 
-      \decay: 0.1, // UNUSED FOR NOW
+      // \attack: 0.1, // UNUSED FOR NOW
+      \breadth: 0.1,
+      // \decay: 0.1, // UNUSED FOR NOW
       \depth: 0.1,
-      \gloom: 10, // <- MAKE FLOAT 1
+      \gloom: 0.1,
       \hz: 130.813,
-      \noise_amp: 0.75,
-      \release: 0.3, // UNUSED FOR NOW
-      \shine: 10; // <- MAKE FLOAT 1
+      \noise_amp: 0.5,
+      // \release: 0.3, // UNUSED FOR NOW
+      \shine: 0.5;
     ]);
     
     params.keysDo({ arg key;
@@ -53,9 +53,6 @@ Engine_Asterion : CroneEngine {
     });
 
     this.addCommand(\note, "i", { arg msg; synth.set(\hz, msg[1].midicps)});
-
-    // Need to extend this to allow note_on / note_off once we get
-    // things working more
   }
 
   free {
