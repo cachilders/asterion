@@ -15,6 +15,10 @@ function Positions:new(options)
   return instance
 end
 
+function Positions:get(k)
+  return self[k]
+end
+
 function Positions:superpose_at_position(location)
   local position = location.position
   if not self.collection[position] then

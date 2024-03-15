@@ -33,6 +33,14 @@ function Labyrinth:act(k, affect, test)
   local function update(action)
     if action.verb == constants.ACTIONS.MOVE then
       self.observer_location = action.value
+      -- TODO replace this POC tone stuff
+      local loc = action.value
+      local states = self.positions:get('collection')[loc.position]:get('states')
+      action.value = {
+        breadth = #states,
+        depth = 1 / loc.depth,
+        gloom = #states / loc.position_state
+      }
     end
     affect(action)
   end
