@@ -1,7 +1,10 @@
-# the-circular-ruins
+# Asterion
 An inscrutable adventure game as a drone sequencer
 
 ## Dev Log
+**3/16/2024**
+What started as The Garden of Forking Paths and became The Circular Ruins is now Asterion. It's still a Borges, and baby they're all about destiny and mazes. This name just centers the theme and makes it more a) like a classic game name and b) makes it more digestible for the norns interface.
+
 **3/15/2024**
 Ten days of tinkering with the base synth engine for this thing, Asterion, which is likely to become the name of the script, and I can't say enough how challenging it has been to capture the sound in my head. I'm close enough now and have proven out the idea enough that I'm ready to get back to the mechanics and aesthetic. Next I'll sort out the sequence looper, Bard, and then it's all room graphics stuff and fine tuning.
 
