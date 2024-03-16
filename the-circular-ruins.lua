@@ -7,14 +7,13 @@ local Pouch = include('lib/pouch')
 local constants = include('lib/constants')
 local bard, labyrinth, pouch
 
-engine.name = 'Asterion'
-
 function init()
   math.randomseed(os.time())
+  bard = Bard:new()
   labyrinth = Labyrinth:new()
-  labyrinth:init()
   pouch = Pouch:new()
-  engine.note(60)
+  bard:intone()
+  labyrinth:init()
   redraw()
 end
 
@@ -26,10 +25,14 @@ end
 
 function keyboard.code(k, z)
   local function affect(action)
-    if action.verb == constants.ACTIONS.DROP then
+    if action.verb == constants.ACTIONS.MOVE then
+      bard:modulate(action.value)
+    elseif action.verb == constants.ACTIONS.DROP then
       pouch:remove(action.value)
+      bard:modulate({shine = 0.1})
     elseif action.verb == constants.ACTIONS.TAKE then
       pouch:add(action.value)
+      bard:modulate({shine = 0.6})
     end
   end
   local function test(match)

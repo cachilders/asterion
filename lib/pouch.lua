@@ -11,6 +11,10 @@ function Pouch:new(options)
   return instance
 end
 
+function Pouch:get(k)
+  return self[k]
+end
+
 function Pouch:inspect(match)
   -- TODO inventory stuff
   if match then
