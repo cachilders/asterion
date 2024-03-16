@@ -2,6 +2,9 @@
 An inscrutable adventure game as a drone sequencer
 
 ## Dev Log
+**3/15/2024**
+Ten days of tinkering with the base synth engine for this thing, Asterion, which is likely to become the name of the script, and I can't say enough how challenging it has been to capture the sound in my head. I'm close enough now and have proven out the idea enough that I'm ready to get back to the mechanics and aesthetic. Next I'll sort out the sequence looper, Bard, and then it's all room graphics stuff and fine tuning.
+
 **3/5/2024**
 With the introduction of the rudimentary key graphic the game is now playable enough to move past the game. I'm torn between adding polish and knowing there's a bunch of work to be done on the drone and in porting back from seamstress to norns. I have a pattern for introducing a ton of variety and in the scene graphics, but doing that work at this point is fairly pointless with the API being so different. Also I haven't solved the "what it sounds like" situation, and there are more unknowns there than anywhere else so that's where the energy belongs. Then it's all programming for norns and making stuff purdy.
 
