@@ -2,7 +2,7 @@ local Location = include('lib/labyrinth/location')
 local Positions = include('lib/labyrinth/positions')
 local constants = include('lib/constants')
 
-local ASSET_PATH = '/home/we/dust/code/the-circular-ruins/assets/images/'
+local ASSET_PATH = '/home/we/dust/code/asterion/assets/images/'
 
 local Labyrinth = {
   observer_location = nil,
