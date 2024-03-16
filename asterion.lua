@@ -1,19 +1,19 @@
 -- The Circular Ruins
 -- Explore the ruins. Dream something into being.
 
-local Bard = include('lib/bard')
+local Minstrel = include('lib/minstrel')
 local Labyrinth = include('lib/labyrinth')
 local Pouch = include('lib/pouch')
 local constants = include('lib/constants')
-local bard, labyrinth, pouch
+local minstrel, labyrinth, pouch
 
 function init()
   math.randomseed(os.time())
-  bard = Bard:new()
   labyrinth = Labyrinth:new()
+  minstrel = Minstrel:new()
   pouch = Pouch:new()
-  bard:intone()
   labyrinth:init()
+  minstrel:init()
   redraw()
 end
 
@@ -26,13 +26,13 @@ end
 function keyboard.code(k, z)
   local function affect(action)
     if action.verb == constants.ACTIONS.MOVE then
-      bard:modulate(action.value)
+      minstrel:observe(action.value)
     elseif action.verb == constants.ACTIONS.DROP then
       pouch:remove(action.value)
-      bard:modulate({shine = 0.1})
+      minstrel:observe({shine = 0.1})
     elseif action.verb == constants.ACTIONS.TAKE then
       pouch:add(action.value)
-      bard:modulate({shine = 0.6})
+      minstrel:observe({shine = 0.6})
     end
   end
   local function test(match)
