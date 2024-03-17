@@ -48,18 +48,30 @@ function Labyrinth:act(k, affect, test)
 end
 
 function Labyrinth:describe_observer_location()
-  local description, aspects = self.observer_location:impart()
-  local l_path = (aspects.l and aspects.lock == 'l' and 'lock/1-l') or (aspects.l and 'open/1-l') or 'blank/1-l'
-  local c_path = (aspects.f and aspects.lock == 'f' and 'lock/1-f') or (aspects.f and 'open/1-f') or 'blank/1-f'
-  local r_path = (aspects.r and aspects.lock == 'r' and 'lock/1-r') or (aspects.r and 'open/1-r') or 'blank/1-r'
+  local description, aspects  = self.observer_location:impart()
+  local room = math.floor((20 / self.start:get('depth')) * self.observer_location:get('position'))
+  local room_path = 'rooms/'..room
+  local l_path = (aspects.l and aspects.lock == 'l' and 'doors/locked_l') or (aspects.l and 'doors/open_l') or nil
+  local c_path = (aspects.f and aspects.lock == 'f' and 'doors/locked_c') or (aspects.f and 'doors/open_c') or nil -- Need final door logic
+  local r_path = (aspects.r and aspects.lock == 'r' and 'doors/locked_r') or (aspects.r and 'doors/open_r') or nil
   local key_path = 'key'
-  screen.display_png(ASSET_PATH..l_path..'.png', 0, 0)
-  screen.display_png(ASSET_PATH..c_path..'.png', 48, 0)
-  screen.display_png(ASSET_PATH..r_path..'.png', 79, 0)
+
+  screen.display_png(ASSET_PATH..room_path..'.png', 0, 0)
+
+  if l_path then
+    screen.display_png(ASSET_PATH..l_path..'.png', 0, 0)
+  end
+  if c_path then
+    screen.display_png(ASSET_PATH..c_path..'.png', 48, 0)
+  end
+  if r_path then
+    screen.display_png(ASSET_PATH..r_path..'.png', 80, 0)
+  end
 
   if aspects.key then
     screen.display_png(ASSET_PATH..key_path..'.png', 48, 0)
   end
+
   local x, y = 64, 22
   for i = 1, #description do
     if i == #description then

@@ -7,9 +7,9 @@ local Minstrel = {
   time = nil
 }
 
-function Minstrel:intone()
+function Minstrel.intone(note)
   -- TODO Set note from param
-  engine.note(34)
+  engine.note(note or 36)
 end
 
 function Minstrel:new(options)

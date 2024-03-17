@@ -1,8 +1,8 @@
--- The Circular Ruins
+-- Asterion
 -- Explore the ruins. Dream something into being.
 
-local Minstrel = include('lib/minstrel')
 local Labyrinth = include('lib/labyrinth')
+local Minstrel = include('lib/minstrel')
 local Pouch = include('lib/pouch')
 local constants = include('lib/constants')
 local minstrel, labyrinth, pouch
