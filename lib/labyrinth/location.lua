@@ -5,6 +5,7 @@ local Location = {
   depth = 0,
   destinations = nil,
   feature = nil,
+  final = false,
   locked_destination = nil,
   position = 1,
   position_state = nil
