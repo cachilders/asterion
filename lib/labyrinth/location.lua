@@ -1,4 +1,3 @@
--- a LOCATION has a deterministic quality used for mutating the aesthetic content of its SUPERPOSITION
 local PASSAGES = {'l', 'r', 'f'}
 local constants = include('lib/constants')
 
@@ -95,28 +94,5 @@ function Location:act(k, update, test)
     print('nope')
   end
 end
-
-function Location:impart()
-  -- TODO So profoundly temporary
-  local destinations = self.destinations
-  local feature = self.feature and 'a '..self.feature.type or 'nothing'
-  local locked_destination = self.feature and self.feature.type == constants.FEATURES.LOCK and self.locked_destination
-  return {
-    'You are at position '..self.position,
-    'You are in position state '..self.position_state,
-    'There is '..feature..' here',
-    ''..(locked_destination ~= 'l' and destinations.l ~= nil and constants.ARROWS['l'] or '')..
-    (locked_destination ~= 'f' and destinations.f ~= nil and constants.ARROWS['f'] or '')..
-    (destinations.b ~= nil and constants.ARROWS['b'] or '')..
-    (locked_destination ~= 'r' and destinations.r ~= nil and constants.ARROWS['r'] or '')
-  }, {
-    lock = locked_destination,
-    key = self.feature and self.feature.type == constants.FEATURES.KEY,
-    l = destinations.l ~= nil,
-    r = destinations.r ~= nil,
-    f = destinations.f ~= nil
-  }
-end
-
 
 return Location

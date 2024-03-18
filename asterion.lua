@@ -54,7 +54,7 @@ end
 function redraw()
   screen.clear()
   screen.level(16)
-  labyrinth:describe_observer_location()
+  labyrinth:refresh()
   screen.update()
 end
 

@@ -10,6 +10,7 @@ return {
     f = '↑',
     b = '↓'
   },
+  ASSET_PATH = '/home/we/dust/code/asterion/assets/images/',
   FEATURES = {
     KEY = 'key',
     LOCK = 'lock'
