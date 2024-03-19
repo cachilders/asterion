@@ -61,7 +61,7 @@ function Location:set(k, v)
   self[k] = v
 end
 
-function Location:act(k, update, test)
+function Location:act(k, test_match, update, level)
   -- TODO: this whole block can and should be improved in a
   -- code org and quality sense with better abstractions, etc.
   local destinations = self.destinations
@@ -74,7 +74,7 @@ function Location:act(k, update, test)
         update({verb = constants.ACTIONS.TAKE, value = self.feature})
         self.feature = nil
       elseif self.feature.type == constants.FEATURES.LOCK then
-        if test(self.feature.match) then
+        if test_match(self.feature.match) then
           update({verb = constants.ACTIONS.DROP, value = self.feature.match})
           self.feature = nil
           self.locked_destination = nil
@@ -91,6 +91,10 @@ function Location:act(k, update, test)
     else
       print('That passage is locked.')
     end
+  elseif self.final and action == constants.INPUTS.UP then
+    update({verb = constants.ACTIONS.DESCEND})
+  elseif self.position == 1 and level > 1 and action == constants.INPUTS.DOWN then
+    update({verb = constants.ACTIONS.ASCEND})
   else
     print('nope')
   end

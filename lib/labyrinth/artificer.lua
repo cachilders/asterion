@@ -28,7 +28,7 @@ function Artificer:render_setting(current_location, start_location)
   }
 
   local key_path = constants.ASSET_PATH..'key'
-  local room = math.floor((20 / start_location:get('depth')) * current_location:get('position'))
+  local room = math.floor((20 / (start_location:get('depth') + 1)) * current_location:get('position'))
   local room_path = constants.ASSET_PATH..'rooms/'..room
   local doors_path = constants.ASSET_PATH..'doors/'
   local l_path = (aspects.l and aspects.lock == 'l' and 'locked_l')

@@ -1,5 +1,7 @@
 return {
   ACTIONS = {
+    ASCEND = 'ascend',
+    DESCEND = 'descend',
     MOVE = 'move',
     DROP = 'drop',
     TAKE = 'take'
