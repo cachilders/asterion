@@ -35,14 +35,14 @@ function keyboard.code(k, z)
       minstrel:observe({shine = 0.6})
     end
   end
-  local function test(match)
+  local function test_match(match)
     return pouch:inspect(match)
   end
   if z == 0 then
     if k == 'I' then
       pouch:inspect()
     else
-      labyrinth:act(k.name or k, affect, test)
+      labyrinth:act(k.name or k, affect, test_match)
       redraw()
     end
   end
@@ -54,7 +54,7 @@ end
 function redraw()
   screen.clear()
   screen.level(16)
-  labyrinth:describe_observer_location()
+  labyrinth:refresh()
   screen.update()
 end
 

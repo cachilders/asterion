@@ -1,5 +1,7 @@
 return {
   ACTIONS = {
+    ASCEND = 'ascend',
+    DESCEND = 'descend',
     MOVE = 'move',
     DROP = 'drop',
     TAKE = 'take'
@@ -10,6 +12,7 @@ return {
     f = '↑',
     b = '↓'
   },
+  ASSET_PATH = '/home/we/dust/code/asterion/assets/images/',
   FEATURES = {
     KEY = 'key',
     LOCK = 'lock'
