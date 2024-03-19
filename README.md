@@ -2,6 +2,13 @@
 An inscrutable adventure game as a drone sequencer
 
 ## Dev Log
+**3/18/2024**
+There's a flaw in some element of the level generation (tree/lock and key) generation that allows for a few unintended consequences. It may be the tree, or perhaps some decoration logic. Anyway, it allows for the creation of unsolvable labyrinths, at least in the reality occupied by the player. This is a risk of superposition, I guess. Today's update allows for descending more deeply into the labyrinth. I flirted with the idea of ascending back to prior levels, but it introduces complexity I'm not certain I want to eat. Shipping the descent work to shift focus to identifying bugs in the level generation or rendering and ultimately make most or all puzzles solvable.
+
+I don't know if solvable puzzles matter in a game that is an abstraction of a synth and sequencer input. But it's bothering me. I like the results musically, though.
+
+We're getting close to done. That's good, because I'm running out of month. I'll fix the gameplay, add params for root and subdivision, add gamepad input, and then make the call on ascent and maybe even fast travel. Depends on how far I can get. Gotta wrap the must haves before worrying about the nice.
+
 **3/16/2024**
 What started as The Garden of Forking Paths and became The Circular Ruins is now Asterion. It's still a Borges, and baby they're all about destiny and mazes. This name just centers the theme and makes it more a) like a classic game name and b) makes it more digestible for the norns interface.
 
