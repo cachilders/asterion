@@ -2,6 +2,9 @@
 An inscrutable adventure game as a drone sequencer
 
 ## Dev Log
+**3/20/2024**
+Hoy! There was a bug so elusive in the generation of the maze tree that I thought I was going crazy. Turns out it was the last place I looked. Finally being able to play through a level and descend to the next with the sequence building is a real treat. Asterion comes alive in the space. The new art is grand, and I'm just generally happy. Going to do a polish run to hit MVP and decide what I want to invest in below the line. There's some pretty sloppy code that I found challenging to parse while debugging. It might be better to pay that down than to add features.
+
 **3/18/2024**
 There's a flaw in some element of the level generation (tree/lock and key) generation that allows for a few unintended consequences. It may be the tree, or perhaps some decoration logic. Anyway, it allows for the creation of unsolvable labyrinths, at least in the reality occupied by the player. This is a risk of superposition, I guess. Today's update allows for descending more deeply into the labyrinth. I flirted with the idea of ascending back to prior levels, but it introduces complexity I'm not certain I want to eat. Shipping the descent work to shift focus to identifying bugs in the level generation or rendering and ultimately make most or all puzzles solvable.
 
