@@ -28,5 +28,6 @@ return {
     S = 'b',
     SPACE = 'interact',
     I = 'inventory'
-  }
+  },
+  PASSAGES = {'l', 'r', 'f'}
 }

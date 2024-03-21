@@ -1,4 +1,3 @@
-local PASSAGES = {'l', 'r', 'f'}
 local constants = include('lib/constants')
 
 local Location = {
@@ -20,7 +19,7 @@ end
 
 function Location:init(superpose, origin)
   local depth = 0
-  local destinations = { nil, nil, nil }
+  local destinations = {}
   local lock_index = nil
   local start = origin == nil
   if not start then
@@ -28,27 +27,23 @@ function Location:init(superpose, origin)
   end
 
   for i = 1, 3 do
+    local dir = constants.PASSAGES[i]
     if math.random(0, self.position) >= self.position - 1 then
-      if depth == 0 then depth = 1 end
-      local destination = Location:new()
-      destination:init(superpose, self)
-      destinations[i] = destination
-      if destination.depth >= depth then
-        depth = destination.depth + 1
+      destinations[dir] = Location:new()
+      destinations[dir]:init(superpose, self)
+      if destinations[dir]:get('depth') >= depth then
+        depth = destinations[dir]:get('depth') + 1
         lock_index = i
       end
+    else
+      destinations[dir] = nil
     end
   end
 
   self.depth = depth
-  self.locked_destination = PASSAGES[lock_index]
-  local l, r, f = table.unpack(destinations)
-  self.destinations = {
-    l = l,
-    r = r,
-    f = f,
-    b = start and nil or origin
-  }
+  self.locked_destination = constants.PASSAGES[lock_index]
+  destinations.b = start and nil or origin
+  self.destinations = destinations
 
   superpose(self)
 end
@@ -85,7 +80,9 @@ function Location:act(k, test_match, update, level)
     else
       print('There is nothing with which to interact')
     end
-  elseif destinations[action] then
+  end
+  
+  if destinations[action] then
     if locked_destination ~= action then
       update({verb = constants.ACTIONS.MOVE, value = destinations[action]})
     else
