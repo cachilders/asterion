@@ -1,5 +1,5 @@
 -- Asterion
--- Explore the ruins. Dream something into being.
+-- Wander the labyrinth. Dream something into being.
 
 local Labyrinth = include('lib/labyrinth')
 local Minstrel = include('lib/minstrel')

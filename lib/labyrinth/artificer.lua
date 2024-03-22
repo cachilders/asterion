@@ -1,6 +1,13 @@
+local util = require('util')
 local constants = include('lib/constants')
+local MAX_FRAME = 30
+local MAX_KEYFRAME = 3
+local MAX_ROOM = 25
 
-local Artificer = {}
+local Artificer = {
+  frame = 1,
+  keyframe = 1
+}
 
 function Artificer:new(options)
   local instance = options or {}
@@ -24,13 +31,13 @@ function Artificer:render_setting(current_location, start_location)
   local r = destinations.r ~= nil
   local f = destinations.f ~= nil
   local key_path = constants.ASSET_PATH..'key'
-  local room = math.floor((20 / (start_location:get('depth') + 1)) * current_location:get('position'))
+  local room = math.floor((MAX_ROOM / (start_location:get('depth') + 1)) * current_location:get('position'))
   local room_path = constants.ASSET_PATH..'rooms/'..room
   local doors_path = constants.ASSET_PATH..'doors/'
   local l_path = (l and locked_destination == 'l' and 'locked_l')
     or (l and 'open_l')
     or nil
-  local c_path = (final_location and 'final')
+  local c_path = (final_location and 'final'..self.keyframe)
     or (f and locked_destination == 'f' and 'locked_c')
     or (f and 'open_c')
     or (final_location and 'final')
@@ -58,6 +65,16 @@ function Artificer:render_setting(current_location, start_location)
   local x, y = 64, 56
   screen.move(x, y)
   screen.text_center(options)
+  self:_frame_advance()
+end
+
+function Artificer:_frame_advance()
+  local KEYFRAME_MODULO = MAX_FRAME / MAX_KEYFRAME
+  self.frame = util.wrap(self.frame + 1, 1, MAX_FRAME)
+
+  if self.frame % KEYFRAME_MODULO == 0 then
+    self.keyframe = util.wrap(self.keyframe + 1, 1, MAX_KEYFRAME)
+  end
 end
 
 return Artificer
