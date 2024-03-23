@@ -26,6 +26,7 @@ return {
     D = 'r',
     W = 'f',
     S = 'b',
+    ENTER = 'interact',
     SPACE = 'interact',
     I = 'inventory'
   },

@@ -23,13 +23,16 @@ function Artificer:render_setting(current_location, start_location)
   local final_location = current_location:get('final')
   local key = feature_type == constants.FEATURES.KEY
   local locked_destination = (feature_type == constants.FEATURES.LOCK) and current_location:get('locked_destination')
+  
   local options = ''..(locked_destination ~= 'l' and destinations.l ~= nil and constants.ARROWS['l'] or '')..
     (((locked_destination ~= 'f' and destinations.f ~= nil) or final_location) and constants.ARROWS['f'] or '')..
     (destinations.b ~= nil and constants.ARROWS['b'] or '')..
     (locked_destination ~= 'r' and destinations.r ~= nil and constants.ARROWS['r'] or '')
+
   local l = destinations.l ~= nil
   local r = destinations.r ~= nil
   local f = destinations.f ~= nil
+
   local key_path = constants.ASSET_PATH..'key'
   local room = math.floor((MAX_ROOM / (start_location:get('depth') + 1)) * current_location:get('position'))
   local room_path = constants.ASSET_PATH..'rooms/'..room
