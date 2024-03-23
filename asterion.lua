@@ -1,11 +1,33 @@
 -- Asterion
--- Explore the ruins. Dream something into being.
+-- Wander the labyrinth. Dream something into being.
 
 local Labyrinth = include('lib/labyrinth')
 local Minstrel = include('lib/minstrel')
 local Pouch = include('lib/pouch')
 local constants = include('lib/constants')
 local minstrel, labyrinth, pouch
+
+local function affect(action)
+  if action.verb == constants.ACTIONS.MOVE then
+    minstrel:observe(action.value)
+  elseif action.verb == constants.ACTIONS.DROP then
+    pouch:remove(action.value)
+    minstrel:observe({shine = 0.1})
+  elseif action.verb == constants.ACTIONS.TAKE then
+    pouch:add(action.value)
+    minstrel:observe({shine = 0.6})
+  elseif action.verb == constants.ACTIONS.ASCEND then
+    minstrel:observe({shine = 1})
+    labyrinth:ascend()
+  elseif action.verb == constants.ACTIONS.DESCEND then
+    minstrel:observe({gloom = 1})
+    labyrinth:descend()
+  end
+end
+
+local function test_match(match)
+  return pouch:inspect(match)
+end
 
 function init()
   math.randomseed(os.time())
@@ -24,20 +46,6 @@ function key(k, z)
 end
 
 function keyboard.code(k, z)
-  local function affect(action)
-    if action.verb == constants.ACTIONS.MOVE then
-      minstrel:observe(action.value)
-    elseif action.verb == constants.ACTIONS.DROP then
-      pouch:remove(action.value)
-      minstrel:observe({shine = 0.1})
-    elseif action.verb == constants.ACTIONS.TAKE then
-      pouch:add(action.value)
-      minstrel:observe({shine = 0.6})
-    end
-  end
-  local function test_match(match)
-    return pouch:inspect(match)
-  end
   if z == 0 then
     if k == 'I' then
       pouch:inspect()
@@ -46,9 +54,6 @@ function keyboard.code(k, z)
       redraw()
     end
   end
-end
-
-function draw()
 end
 
 function redraw()

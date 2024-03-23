@@ -19,10 +19,12 @@ end
 
 function Location:init(superpose, origin)
   local depth = 0
-  local destinations = {}
+  local destinations = {
+    b = origin 
+  }
   local lock_index = nil
-  local start = origin == nil
-  if not start then
+
+  if origin then
     self.position = origin.position + 1
   end
 
@@ -42,9 +44,7 @@ function Location:init(superpose, origin)
 
   self.depth = depth
   self.locked_destination = constants.PASSAGES[lock_index]
-  destinations.b = start and nil or origin
   self.destinations = destinations
-
   superpose(self)
 end
 
