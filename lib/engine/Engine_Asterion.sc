@@ -12,7 +12,7 @@ Engine_Asterion : CroneEngine {
   alloc {
     // TODO Expand with trigger and env
     SynthDef(\Asterion, {
-      arg amp=0.5, attack=0.1, breadth=0.1, decay=0.1, depth=0.1, gloom=0.01, hz=130.813, noise_amp=0.5, release=0.3, shine=0.1, t_gate;
+      arg amp=0.0, attack=0.1, breadth=0.1, decay=0.1, depth=0.1, gloom=0.01, hz=130.813, noise_amp=0.5, release=0.3, shine=0.1, t_gate;
       var band_hz, band_width, delay, delay_buffer, filtered, high, low, mid, mix, noise, noise_cutoff, verb;
       delay_buffer = Buffer.alloc(context.server, 360);
       band_hz = hz - ((hz / 2) * depth);

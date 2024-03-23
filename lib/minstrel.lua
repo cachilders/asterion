@@ -9,6 +9,7 @@ local Minstrel = {
 
 function Minstrel.intone(note)
   -- TODO Set note from param
+  engine.amp(0.5)
   engine.note(note or 36)
 end
 
