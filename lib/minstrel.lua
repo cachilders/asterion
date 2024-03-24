@@ -1,7 +1,4 @@
 local Song = include('lib/minstrel/song')
-local asterion_engine = include('/lib/engine/asterion_engine')
-
-engine.name = 'Asterion'
 
 local Minstrel = {
   clock = nil,
@@ -21,7 +18,6 @@ function Minstrel:new(options)
 end
 
 function Minstrel:init()
-  asterion_engine:add_params()
   self.song = Song:new()
   self.song:init()
   self.tempo = params:get('clock_tempo')
@@ -30,10 +26,16 @@ function Minstrel:init()
   self.clock:start()
 end
 
+function Minstrel:adjust_song()
+  self.song:adjust()
+end
+
 function Minstrel:modulate(mods)
   self:_check_time()
-  for k, v in pairs(mods) do
-    engine[k](v)
+  if mods then
+    for k, v in pairs(mods) do
+      params:set(k, v)
+    end
   end
 end
 

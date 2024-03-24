@@ -9,7 +9,7 @@ end
 local parameters = {
   {id = 'amp', name = 'amplitude', type = 'control', min = 0, max = 1, warp = 'lin', default = 0.0, formatter = function(param) return quantize_and_format(param:get()*100, 1, '%') end},
   {id = 'noise_amp', name = 'noise amplitude', type = 'control', min = 0, max = 1, warp = 'lin', default = 0.5, formatter = function(param) return quantize_and_format(param:get()*100, 1, '%') end},
-  {id = 'hz', name = 'frequency', type = 'number', min = 0.0, max = 10000.0, warp = 'exp', default = 65.41, formatter = function(param) return quantize_and_format(param:get(), 0.01, ' hz') end},
+  {id = 'hz', name = 'frequency', type = 'number', min = 20.0, max = 20000.0, default = 65.41, formatter = function(param) return quantize_and_format(param:get(), 0.01, ' hz') end},
   {id = 'breadth', name = 'breadth', type = 'control', min = 0.01, max = 1, default = 0.1, formatter = function(param) return quantize_and_format(param:get()*100, 0.1, '%') end},
   {id = 'depth', name = 'depth', type = 'control', min = 0.01, max = 1, default = 0.1, formatter = function(param) return quantize_and_format(param:get()*100, 0.1, '%') end},
   {id = 'gloom', name = 'gloom', type = 'control', min = 0.01, max = 1, default = 0.1, formatter = function(param) return quantize_and_format(param:get()*100, 0.1, '%') end},
@@ -20,7 +20,7 @@ local parameters = {
 }
 
 function Asterion:add_params()
-  params:add_group('asterion', 'Asterion', 10)
+  params:add_group('asterion_engine', 'ASTERION (ENGINE)', 10)
   for i = 1, #parameters do
     local parameter = parameters[i]
     if parameter.type == 'control' then

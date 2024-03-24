@@ -21,6 +21,10 @@ function Labyrinth:init()
   self:refresh()
 end
 
+function Labyrinth:get(k)
+  return self[k]
+end
+
 function Labyrinth:act(k, affect, test_match)
   self.levels[self.level]:move(k, affect, test_match, self.level)
 end
