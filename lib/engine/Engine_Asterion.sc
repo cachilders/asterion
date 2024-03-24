@@ -35,14 +35,14 @@ Engine_Asterion : CroneEngine {
 
     params = Dictionary.newFrom([
       \amp: 0.5,
-      // \attack: 0.1, // UNUSED FOR NOW
+      \attack: 0.1,
       \breadth: 0.1,
-      // \decay: 0.1, // UNUSED FOR NOW
+      \decay: 0.1,
       \depth: 0.1,
       \gloom: 0.1,
       \hz: 130.813,
       \noise_amp: 0.5,
-      // \release: 0.3, // UNUSED FOR NOW
+      \release: 0.3,
       \shine: 0.5;
     ]);
     
