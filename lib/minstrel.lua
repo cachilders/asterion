@@ -10,9 +10,7 @@ local Minstrel = {
 }
 
 function Minstrel.intone(note)
-  -- TODO Set note from param
-  engine.amp(0.5)
-  engine.note(note or 36)
+  params:set('amp', 0.5)
 end
 
 function Minstrel:new(options)
