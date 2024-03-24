@@ -92,8 +92,6 @@ function Location:act(k, test_match, update, level)
     update({verb = constants.ACTIONS.DESCEND})
   elseif self.position == 1 and level > 1 and action == constants.INPUTS.DOWN then
     update({verb = constants.ACTIONS.ASCEND})
-  else
-    print('nope')
   end
 end
 

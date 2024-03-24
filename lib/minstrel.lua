@@ -1,16 +1,13 @@
 local Song = include('lib/minstrel/song')
 
-engine.name = 'Asterion'
-
 local Minstrel = {
+  clock = nil,
   song = nil,
-  time = nil
+  tempo = nil
 }
 
 function Minstrel.intone(note)
-  -- TODO Set note from param
-  engine.amp(0.5)
-  engine.note(note or 36)
+  params:set('amp', 0.5)
 end
 
 function Minstrel:new(options)
@@ -21,23 +18,41 @@ function Minstrel:new(options)
 end
 
 function Minstrel:init()
-  local bpm = 60 / params:get('clock_tempo')
   self.song = Song:new()
   self.song:init()
-  self.time = metro.init(function() self:modulate(self.song:recall()) end, bpm)
+  self.tempo = params:get('clock_tempo')
+  self.clock = metro.init(function() self:modulate(self.song:recall()) end, self:_get_time())
   self.intone()
-  self.time:start()
+  self.clock:start()
+end
+
+function Minstrel:adjust_song()
+  self.song:adjust()
 end
 
 function Minstrel:modulate(mods)
-  for k, v in pairs(mods) do
-    engine[k](v)
+  self:_check_time()
+  if mods then
+    for k, v in pairs(mods) do
+      params:set(k, v)
+    end
   end
 end
 
 function Minstrel:observe(mods)
   self:modulate(mods)
   self.song:record(mods)
+end
+
+function Minstrel:_check_time()
+  if self.tempo ~= params:get('clock_tempo') then
+    self.tempo = params:get('clock_tempo')
+    self.clock.time = self:_get_time()
+  end
+end
+
+function Minstrel:_get_time()
+  return 60 / self.tempo
 end
 
 return Minstrel

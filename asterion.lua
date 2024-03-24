@@ -8,10 +8,13 @@
 
 local Labyrinth = include('lib/labyrinth')
 local Minstrel = include('lib/minstrel')
+local Parameters = include('lib/parameters')
 local Pouch = include('lib/pouch')
 local constants = include('lib/constants')
-local minstrel, labyrinth, pouch
 
+engine.name = 'Asterion'
+
+local minstrel, labyrinth, pouch
 local splash = true
 local splash_variant = 1
 
@@ -20,15 +23,15 @@ local function affect(action)
     minstrel:observe(action.value)
   elseif action.verb == constants.ACTIONS.DROP then
     pouch:remove(action.value)
-    minstrel:observe({shine = 0.1})
+    minstrel:observe({shine = params:get('shine') - 0.15})
   elseif action.verb == constants.ACTIONS.TAKE then
     pouch:add(action.value)
-    minstrel:observe({shine = 0.6})
+    minstrel:observe({shine = params:get('shine') + 0.15})
   elseif action.verb == constants.ACTIONS.ASCEND then
-    minstrel:observe({shine = 1})
+    minstrel:observe({shine = params:get('shine') * 2})
     labyrinth:ascend()
   elseif action.verb == constants.ACTIONS.DESCEND then
-    minstrel:observe({gloom = 1})
+    minstrel:observe({gloom = 0.1 * labyrinth:get('level')})
     labyrinth:descend()
   end
 end
@@ -36,6 +39,7 @@ end
 local function commence()
   splash = false
   minstrel:init()
+  parameters.set_song_update(function() minstrel:adjust_song() end)
 end
 
 local function render()
@@ -59,8 +63,10 @@ function init()
   splash_variant = math.random(1, 2)
   labyrinth = Labyrinth:new()
   minstrel = Minstrel:new()
+  parameters = Parameters:new()
   pouch = Pouch:new()
   labyrinth:init()
+  parameters.init()
   redraw()
 end
 
