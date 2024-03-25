@@ -23,15 +23,15 @@ local function affect(action)
     minstrel:observe(action.value)
   elseif action.verb == constants.ACTIONS.DROP then
     pouch:remove(action.value)
-    minstrel:observe({shine = params:get('shine') - 0.15})
+    minstrel:observe({shine = (pouch:get('size') * 0.1) + (0.1 * labyrinth:get('level'))})
   elseif action.verb == constants.ACTIONS.TAKE then
     pouch:add(action.value)
-    minstrel:observe({shine = params:get('shine') + 0.15})
+    minstrel:observe({shine = (pouch:get('size') * 0.1) + (0.1 * labyrinth:get('level'))})
   elseif action.verb == constants.ACTIONS.ASCEND then
-    minstrel:observe({shine = params:get('shine') * 2})
+    minstrel:observe({shine = params:get('shine') * 2, gloom = 0.1 * labyrinth:get('level')})
     labyrinth:ascend()
   elseif action.verb == constants.ACTIONS.DESCEND then
-    minstrel:observe({gloom = 0.1 * labyrinth:get('level')})
+    minstrel:observe({shine = params:get('shine') / 2, gloom = 0.1 * labyrinth:get('level')})
     labyrinth:descend()
   end
 end
