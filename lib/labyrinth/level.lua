@@ -40,8 +40,8 @@ function Level:move(k, affect, test_match, level_num)
       local location = action.value
       local states = self.positions:get('collection')[location:get('position')]:get('states')
       action.value = {
-        breadth = 1 - ((1 / #states) * location:get('position_state')),
-        depth = (1 / self.start:get('depth')) * location:get('depth')
+        breadth = (1 / #states) * location:get('position_state') * 0.8,
+        depth = (1 / self.start:get('depth')) * location:get('depth') * 0.8
       }
     end
     affect(action)
