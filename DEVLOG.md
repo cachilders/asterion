@@ -1,4 +1,7 @@
 ## Dev Notes
+**3/24/2024**
+Finished what feels like MVP. Below the line is adding an envelope to the engine and allowing it to be a bit more general use, but I'm not holding the project on that. It was never about making a proper synth. I think I only want it to be one so I can wedge it into other projects. All the more reason to keep doing new projects. Pretty happy with where everything has landed—not to mention delivering on schedule.
+
 **3/23/2024**
 Splash screen added. Feels a lot like a game. Depriorioritized several intended enhancements. Not going ahead with gampepad, for now. Not adding any on-norns controls. I'll add the root note selector for the drone, whatever related params make sense. From there I suspect I'll be wrapping development for a bit. I could keep tinkering with the engine and probably should. I still want to make it more of a synth engine and clean up the rough edges, but we'll see where the waning days of the month take us. Otherwise it's dev work for another day.
 
