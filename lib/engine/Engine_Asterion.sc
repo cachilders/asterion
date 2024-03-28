@@ -3,7 +3,7 @@
 
 // Inherit methods from CroneEngine
 Engine_Asterion : CroneEngine {
-  var <synth, params;
+  var <synth, params, <voices;
 
   *new { arg context, doneCallback;
     ^super.new(context, doneCallback);
@@ -54,7 +54,34 @@ Engine_Asterion : CroneEngine {
       });
     });
 
+    voices = Dictionary.new();
+
     this.addCommand(\note, "i", { arg msg; synth.set(\hz, msg[1].midicps)});
+
+    this.addCommand(\note_on, "ifffff", { arg msg;
+      var note_num = msg[1];
+      var velocity = msg[2];
+      var attack = msg[3];
+      var decay = msg[4];
+      var sustain = msg[5];
+      var release = msg[6];
+
+      // Loop through slots until empty slot or isPlaying is false
+      // If no slot is available; set oldest gate to zero
+      // replace with new synth
+      // else insert new synth
+      // register with nodewatcher
+
+    });
+
+    this.addCommand(\note_off, "i", {arg msg;
+      // disable note
+    });
+
+    this.addCommand(\play_note, { arg msg; 
+      // same values + envelope duration
+      // one shot
+    })
   }
 
   free {
