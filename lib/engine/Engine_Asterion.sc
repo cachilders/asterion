@@ -3,7 +3,7 @@
 
 // Inherit methods from CroneEngine
 Engine_Asterion : CroneEngine {
-  var <synth, params, <voices;
+  var <drone, params, voice, voice_next, voice_on, voice_off, <voices;
 
   *new { arg context, doneCallback;
     ^super.new(context, doneCallback);
@@ -31,7 +31,7 @@ Engine_Asterion : CroneEngine {
 
     context.server.sync;
 
-    synth = Synth(\Asterion, target:context.server);
+    drone = Synth(\Asterion, target:context.server);
 
     params = Dictionary.newFrom([
       \amp: 0.5,
@@ -50,41 +50,58 @@ Engine_Asterion : CroneEngine {
     
     params.keysDo({ arg key;
       this.addCommand(key, "f", { arg msg;
-        synth.set(key, msg[1])
+        drone.set(key, msg[1])
       });
     });
 
-    voices = Dictionary.new();
+    // note commands select or cycle through five voices in addition to the drone,
+    // which are controlled with command arguments.
+    voices = Array.fill(5, Synth(\Asterion, [\gate, 0], target:context.server));
 
-    this.addCommand(\note, "i", { arg msg; synth.set(\hz, msg[1].midicps)});
+    voice_next = {voice = (voice+1).wrap(0, 4)}
 
-    this.addCommand(\note_on, "ifffff", { arg msg;
-      var note_num = msg[1];
-      var velocity = msg[2];
-      var attack = msg[3];
-      var decay = msg[4];
-      var sustain = msg[5];
-      var release = msg[6];
+    voice_on = ({
+      arg id, note_num, velocity, attack, decay, sustain, release;
+      var hz=if(note_num.notNil, {note_num.midicps}, {params[\hz]});
+      var amp=if(velocity.notNil, {1/127 * velocity}, {params[\amp]});
 
-      // Loop through slots until empty slot or isPlaying is false
-      // If no slot is available; set oldest gate to zero
-      // replace with new synth
-      // else insert new synth
-      // register with nodewatcher
+      id=if(id.notNil, {id}, {var v = voice; voice_next.(); v});
+      attack=if(attack.notNil, {attack}, {params[\attack]});
+      decay=if(decay.notNil, {decay}, {params[\decay]});
+      sustain=if(sustain.notNil, {sustain}, {params[\sustain]});
+      release=if(release.notNil, {release}, {params[\release]});
 
+      voice_off.(id);
+      voices[id].set(\amp, amp, \hz, hz, \attack, attack, \decay, decay, \sustain, sustain. \release, release, \gate, 1)
+    })
+
+    voice_off = ({|i|; voices[i].set(\gate, 0);})
+
+    this.addCommand(\note, "i", { arg msg; drone.set(\hz, msg[1].midicps)});
+
+    this.addCommand(\note_on, "iiiffff", {
+      // id, note_num, velocity, attack, decay, sustain, release
+      arg msg;
+      voice_on.(msg[1], msg[2], msg[3], msg[4], msg[5], msg[6], msg[7]);
     });
 
     this.addCommand(\note_off, "i", {arg msg;
-      // disable note
+      voice_off.(msg[1])
     });
 
-    this.addCommand(\play_note, { arg msg; 
-      // same values + envelope duration
-      // one shot
-    })
+    // One-shot with duration argument
+    this.addCommand(\play_note, "iifffff", {
+      // note_num, velocity, duration, attack, decay, sustain, release
+      arg msg;
+      var v = voice
+      voice_next.()
+      voice_on.(v, msg[1], msg[2], msg[4], msg[5], msg[6], msg[7]);
+      SystemClock.sched(msg[3], {voice_off.(v)})
+    });
   }
 
   free {
-    synth.free;
+    voices.do({arg synth; synth.free});
+    drone.free;
   }
 }

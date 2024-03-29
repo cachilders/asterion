@@ -22,7 +22,7 @@ local parameters = {
 }
 
 function Asterion:add_params()
-  params:add_group('asterion_engine', 'ASTERION (ENGINE)', 11)
+  params:add_group('asterion_drone', 'ASTERION (DRONE)', 11)
   for i = 1, #parameters do
     local parameter = parameters[i]
     if parameter.name ~= 'gate' then
