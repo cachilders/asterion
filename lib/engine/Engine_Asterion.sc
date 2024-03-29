@@ -58,7 +58,7 @@ Engine_Asterion : CroneEngine {
     // which are controlled with command arguments.
     voices = Array.fill(5, Synth(\Asterion, [\gate, 0], target:context.server));
 
-    voice_next = {voice = (voice+1).wrap(0, 4)}
+    voice_next = ({voice = (voice+1).wrap(0, 4)});
 
     voice_on = ({
       arg id, note_num, velocity, attack, decay, sustain, release;
@@ -72,10 +72,10 @@ Engine_Asterion : CroneEngine {
       release=if(release.notNil, {release}, {params[\release]});
 
       voice_off.(id);
-      voices[id].set(\amp, amp, \hz, hz, \attack, attack, \decay, decay, \sustain, sustain. \release, release, \gate, 1)
-    })
+      voices[id].set(\amp, amp, \hz, hz, \attack, attack, \decay, decay, \sustain, sustain, \release, release, \gate, 1)
+    });
 
-    voice_off = ({|i|; voices[i].set(\gate, 0);})
+    voice_off = ({|i| voices[i].set(\gate, 0)});
 
     this.addCommand(\note, "i", { arg msg; drone.set(\hz, msg[1].midicps)});
 
@@ -93,8 +93,8 @@ Engine_Asterion : CroneEngine {
     this.addCommand(\play_note, "iifffff", {
       // note_num, velocity, duration, attack, decay, sustain, release
       arg msg;
-      var v = voice
-      voice_next.()
+      var v = voice;
+      voice_next.();
       voice_on.(v, msg[1], msg[2], msg[4], msg[5], msg[6], msg[7]);
       SystemClock.sched(msg[3], {voice_off.(v)})
     });
