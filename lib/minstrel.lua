@@ -1,4 +1,5 @@
 local Song = include('lib/minstrel/song')
+local music_util = require('musicutil')
 
 local Minstrel = {
   clock = nil,
@@ -24,6 +25,19 @@ function Minstrel:init()
   self.clock = metro.init(function() self:modulate(self.song:recall()) end, self:_get_time())
   self.intone()
   self.clock:start()
+end
+
+function Minstrel:accent_song(i, scale)
+  if i == 0 then i = 10 end
+  engine.play_note(
+    scale[i],
+    params:get('velocity'),
+    self:_get_time(),
+    params:get('attack'),
+    params:get('decay'),
+    params:get('sustain'),
+    params:get('release')
+  )
 end
 
 function Minstrel:adjust_song()
@@ -52,7 +66,7 @@ function Minstrel:_check_time()
 end
 
 function Minstrel:_get_time()
-  return 60 / self.tempo
+  return 60 / (self.tempo or params:get('clock_tempo'))
 end
 
 return Minstrel

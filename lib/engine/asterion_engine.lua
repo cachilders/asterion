@@ -22,32 +22,30 @@ local parameters = {
 }
 
 function Asterion:add_params()
-  params:add_group('asterion_drone', 'ASTERION (DRONE)', 11)
+  params:add_group('asterion_drone', 'ASTERION (DRONE)', 12)
   for i = 1, #parameters do
     local parameter = parameters[i]
-    if parameter.name ~= 'gate' then
-      if parameter.type == 'control' then
-        params:add_control(
-          parameter.id,
-          parameter.name,
-          ControlSpec.new(parameter.min, parameter.max, parameter.warp, 0, parameter.default),
-          parameter.formatter
-        )
-      elseif parameter.type == 'number' then
-        params:add_number(
-          parameter.id,
-          parameter.name,
-          parameter.min,
-          parameter.max,
-          parameter.default,
-          parameter.formatter
-        )
-      end
-
-      params:set_action(parameter.id, function(val)
-        engine[parameter.id](val)
-      end)
+    if parameter.type == 'control' then
+      params:add_control(
+        parameter.id,
+        parameter.name,
+        ControlSpec.new(parameter.min, parameter.max, parameter.warp, 0, parameter.default),
+        parameter.formatter
+      )
+    elseif parameter.type == 'number' then
+      params:add_number(
+        parameter.id,
+        parameter.name,
+        parameter.min,
+        parameter.max,
+        parameter.default,
+        parameter.formatter
+      )
     end
+
+    params:set_action(parameter.id, function(val)
+      engine[parameter.id](val)
+    end)
   end
 
   params:bang()

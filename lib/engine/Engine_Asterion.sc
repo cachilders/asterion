@@ -3,7 +3,7 @@
 
 // Inherit methods from CroneEngine
 Engine_Asterion : CroneEngine {
-  var <drone, params, voice, voice_next, voice_on, voice_off, <voices;
+  var <drone, params, voice=0, voice_next, voice_on, voice_off, <voices;
 
   *new { arg context, doneCallback;
     ^super.new(context, doneCallback);
