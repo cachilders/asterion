@@ -14,7 +14,7 @@ local parameters = {
   {id = 'depth', name = 'depth', type = 'control', min = 0.01, max = 1, default = 0.1, formatter = function(param) return quantize_and_format(param:get()*100, 0.1, '%') end},
   {id = 'gloom', name = 'gloom', type = 'control', min = 0.01, max = 1, default = 0.1, formatter = function(param) return quantize_and_format(param:get()*100, 0.1, '%') end},
   {id = 'shine', name = 'shine', type = 'control', min = 0.01, max = 1, default = 0.5, formatter = function(param) return quantize_and_format(param:get()*100, 0.1, '%') end},
-  {id = 'gate', name = 'drone gate', type = 'number', min = 0, max = 1, default = 1, formatter = function(param) return (param:get() == 1 and 'open' or 'closed') end}
+  {id = 'gate', name = 'drone gate', type = 'number', min = 0, max = 1, default = 1, formatter = function(param) return (param:get() == 1 and 'open' or 'closed') end},
   {id = 'attack', name = 'attack', type = 'control', min = 0.001, max = 17, warp = 'exp', default = 0.01, formatter = function(param) return quantize_and_format(param:get(), 0.01, ' s') end},
   {id = 'decay', name = 'decay', type = 'control', min = 0.001, max = 17, warp = 'exp', default = 0.1, formatter = function(param) return quantize_and_format(param:get(), 0.01, ' s') end},
   {id = 'sustain', name = 'sustain', type = 'control', min = 0.01, max = 1, default = 1, formatter = function(param) return quantize_and_format(param:get()*100, 0.1, '%') end},
