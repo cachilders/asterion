@@ -66,7 +66,7 @@ function init()
   parameters = Parameters:new()
   pouch = Pouch:new()
   labyrinth:init()
-  parameters.init()
+  parameters:init()
   redraw()
 end
 
@@ -87,6 +87,11 @@ function keyboard.code(k, z)
       end
     else
       commence()
+    end
+  else
+    local note_input = tonumber(k)
+    if note_input then
+      minstrel:accent_song(note_input, parameters:get('scale'))
     end
   end
 end

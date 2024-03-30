@@ -14,9 +14,11 @@ Every locked door has a matching key, and every floor has a final door that desc
 
 While events are recorded in a breadth-based loop, playback is depth-first. At each step in the playback loop, which begins advancing when the splash screen is dismissed, all available modulation events within that loop step are played before advancing to the next step. 1:1, 1:2, 1:3, 2:1, 2:2, 3:1, and so on.
 
-Adjust the `Drone Base` note, `Loop Length`, and `Max Step Depth`, along with various `Asterion (Engine)` characteristics in the params menu. Note that in the `Asterion (Engine)` params, only `amplitude`, `hz` and `noise amplitude` will stay where you put them due to the nature of the script. Also note that `attack`, `decay`, and `release` are both unused in the script and currently unimplemented in the engine. That's a big TODO, buddy.
+Adjust the `Drone Base` note, `Loop Length`, and `Max Step Depth`, along with various `Asterion (Engine)` characteristics in the params menu. Note that in the `Asterion (Engine)` params, only `amplitude`, `hz` and `noise amplitude` will stay where you put them due to the nature of the script.
 
-Parameter adjustments are not recorded to the loop. Only events from gameplay are sequenced.
+In addition to the sequenced drone, programmed by exploring the labyrinth, you can play accent notes in scale from the drone base using your (typing) keyboard's number keys. These will play the ten notes in the `scale` of your selection from the `Asterion` parameter group. You may also adjust the fixed `velocity` of accent notes played. Note that `attack`, `decay`, `sustain` and `release` within the `Asterion (Engine)` params apply exclusively to the Accent feature in this script and have not effect on the drone.
+
+Parameter adjustments and accent notes are not recorded to the loop. Only events from gameplay are sequenced.
 
 A word of WARNING: Care has been take to tame the drone, but it has some intimidating qualities that should be explored at moderate volumes as you begin to wander the labyrinth. I moved from testing it on a regular stereo speaker to a bass amp and nearly had a heart attack.
 
