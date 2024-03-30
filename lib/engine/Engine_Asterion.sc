@@ -96,7 +96,7 @@ Engine_Asterion : CroneEngine {
       var v = voice;
       voice_next.();
       voice_on.(v, msg[1], msg[2], msg[4], msg[5], msg[6], msg[7]);
-      SystemClock.sched(msg[3], {voice_off.(v)})
+      SystemClock.sched(msg[3], {voice_off.(v); nil});
     });
   }
 
